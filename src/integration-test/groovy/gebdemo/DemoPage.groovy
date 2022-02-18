@@ -34,11 +34,11 @@ class DemoPage extends Page {
                       |}
                       |return ret;'''.stripMargin()
 
-    String micronautSummary() {
+    String getMicronautSummary() {
         driver.executeScript(NON_HTMLUNIT_TEXT_EXTRACTOR, micronautSummaryTitle.singleElement(), grailsLink.singleElement()).trim()
     }
 
-    String grailsSummary() {
+    String getGrailsSummary() {
         driver.executeScript(NON_HTMLUNIT_TEXT_EXTRACTOR, grailsSummaryTitle.singleElement(), null).trim()
     }
 }

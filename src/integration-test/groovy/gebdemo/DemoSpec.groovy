@@ -17,13 +17,13 @@ class DemoSpec extends GebSpec {
         to DemoPage
 
         then:
-        def page = at DemoPage
+        at DemoPage
 
         and:
         micronautLinkText == 'Micronaut Framework'
         grailsLinkText == 'Grails Framework'
 
-        page.micronautSummary() == 'Microservice Framework'
-        page.grailsSummary() == 'Web Application Framework'
+        micronautSummary == 'Microservice Framework'
+        grailsSummary == 'Web Application Framework'
     }
 }
