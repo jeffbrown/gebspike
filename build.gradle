@@ -1,3 +1,5 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
 buildscript {
     repositories {
         maven { url "https://repo.grails.org/grails/core" }
@@ -7,6 +9,9 @@ buildscript {
         classpath "org.grails.plugins:hibernate5:7.1.0"
         classpath "gradle.plugin.com.github.erdi.webdriver-binaries:webdriver-binaries-gradle-plugin:2.6"
         classpath "com.bertramlabs.plugins:asset-pipeline-gradle:3.3.4"
+
+        // For Tim
+        classpath "gradle.plugin.com.github.erdi.webdriver-binaries:webdriver-binaries-gradle-plugin:2.7"
     }
 }
 
@@ -103,6 +108,13 @@ tasks.withType(Test) {
 webdriverBinaries {
     chromedriver '2.45.0'
     geckodriver '0.24.0'
+
+    // Hack for tim's m1 mac
+    if (Os.isFamily(Os.FAMILY_MAC) && Os.isArch("aarch64")) {
+        chromedriver '98.0.4758.102'
+        geckodriver '0.30.0'
+        driverUrlsConfiguration = project.resources.text.fromFile(project.layout.projectDirectory.file("m1-chromedriver-hack.json"))
+    }
 }
 
 integrationTest {

@@ -14,14 +14,31 @@ class DemoPage extends Page {
         micronautLinkText {
             $('a', href: 'https://micronaut.io').text()
         }
-        grailsLinkText {
-            $('a', href: 'https://grails.org').text()
+        grailsLink {
+            $('a', href: 'https://grails.org')
         }
-//        micronautSummary {
-//
-//        }
-//        grailsSummary {
-//
-//        }
+        grailsLinkText {
+            grailsLink.text()
+        }
+        micronautSummaryTitle {
+            $('u').find { it.$('b').text() == 'Micronaut Summary:' }
+        }
+        grailsSummaryTitle {
+            $('u').find { it.$('b').text() == 'Grails Summary:' }
+        }
+    }
+
+    private static final String NON_HTMLUNIT_TEXT_EXTRACTOR = '''let ret = '';
+                      |for (e = arguments[0].nextSibling; e && e.nextSibling && e != arguments[1]; e = e.nextSibling) {
+                      |    ret += e.textContent;
+                      |}
+                      |return ret;'''.stripMargin()
+
+    String micronautSummary() {
+        driver.executeScript(NON_HTMLUNIT_TEXT_EXTRACTOR, micronautSummaryTitle.singleElement(), grailsLink.singleElement()).trim()
+    }
+
+    String grailsSummary() {
+        driver.executeScript(NON_HTMLUNIT_TEXT_EXTRACTOR, grailsSummaryTitle.singleElement(), null).trim()
     }
 }
